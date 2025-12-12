@@ -3,7 +3,6 @@
  * @author xile611
  * @date 2015-09-17
  */
-import Decimal from 'decimal.js-light';
 
 /**
  * Get the digit count of a number.
@@ -20,7 +19,7 @@ function getDigitCount(value: number) {
   if (value === 0) {
     result = 1;
   } else {
-    result = Math.floor(new Decimal(value).abs().log(10).toNumber()) + 1;
+    result = Math.floor(Math.log10(Math.abs(value))) + 1;
   }
 
   return result;
@@ -35,16 +34,16 @@ function getDigitCount(value: number) {
  * @param  {Decimal} step  Step size
  * @return {Array}         Array of numbers
  */
-function rangeStep(start: Decimal, end: Decimal, step: Decimal): Array<number> {
-  let num = new Decimal(start);
+function rangeStep(start: number, end: number, step: number): Array<number> {
+  let num = start;
   let i = 0;
   const result: Array<number> = [];
 
   // magic number to prevent infinite loop
-  while (num.lt(end) && i < 100000) {
-    result.push(num.toNumber());
+  while (num < end && i < 100000) {
+    result.push(num);
 
-    num = num.add(step);
+    num += step;
     i++;
   }
 
